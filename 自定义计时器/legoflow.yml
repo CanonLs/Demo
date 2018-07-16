@@ -1,0 +1,21 @@
+# 参数说明: https://legoflow.com/wiki/config.html
+
+name: 自定义计时器
+
+version: app@2.0.0-beta.5
+
+type: PC
+
+REM: false
+
+ES.Next: true
+
+alias:
+    $: ./src/assets/jquery.min.js
+    jquery: ./src/assets/jquery.min.js
+    jQuery: ./src/assets/jquery.min.js
+
+global:
+    $: jquery
+    jquery: jquery
+    jQuery: jquery
