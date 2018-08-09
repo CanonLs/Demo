@@ -23,20 +23,33 @@ $(document).ready(function() {
 
     function creatCanvas(imgSrc, w, h) {
         var canvas = document.querySelector("#cas");
-        canvas.width = $(".wk").width();
-        canvas.height = $(".wk").height();
+        console.log(imgSrc);
+        // canvas.width = $(".wk").width();
+        // canvas.height = $(".wk").height();
         var ctx = canvas.getContext("2d");
-        var img = new Image();
-        img.src = imgSrc;
-        img.onload = function() {
-            var px = ($(".wk").width() - img.width) / 2;
-            var py = ($(".wk").height() - img.height) / 2;
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.drawImage(img, px, py, w, h);
-            // strDataURI = canvas.toDataURL();
-            pinchRotate(canvas, ctx, img, px, py);
-        }
+        // var img = new Image();
+        // img.src = imgSrc;
+        // img.onload = function() {
+        //     var px = ($(".wk").width() - img.width) / 2;
+        //     var py = ($(".wk").height() - img.height) / 2;
+        //     ctx.clearRect(0, 0, canvas.width, canvas.height);
+        //     ctx.drawImage(img, px, py, w, h);
+        //     // strDataURI = canvas.toDataURL();
+        //     pinchRotate(canvas, ctx, img, px, py);
+        // }
+        var app = new PIXI.Application(canvas);
+        var wk = document.querySelector(".wk");
+        wk.appendChild(app.view);
+        var texture = PIXI.Texture.from(imgSrc);
+        var bunny = new PIXI.Sprite(texture);
+        bunny.interactive = true;
+        bunny.buttonMode = true;
+        bunny.x = 0;
+        bunny.y = 0;
+        app.stage.addChild(bunny);
+
     };
+
     function pinchRotate(el, ctx, img, x, y) {
         var kw = $(".wk").width();
         var kh = $(".wk").height();
@@ -81,5 +94,5 @@ $(document).ready(function() {
         }
     };
 
-    
+
 })
