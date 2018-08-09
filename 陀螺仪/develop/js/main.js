@@ -1,104 +1,72 @@
-$(document).ready(function() {
-    var vConsole = new VConsole();
-    $(".btn").on("click", function() {
-        $(".input").trigger('click');
-    })
-    var input = document.querySelector(".input");
-    input.addEventListener("change", function() {
-        var files = this.files;
-        var reader = new FileReader();
-        reader.readAsDataURL(files[0]);
-        reader.onload = function() {
-            var img = new Image();
-            img.src = this.result;
-            img.onload = function() {
-                var width = this.width;
-                var height = this.height;
-                creatCanvas(img.src, width, height);
-            }
-        }
-    })
+var winWidth = $(window).width(),
+    winHeight = $(window).height(),
+    backgroundBox = $(".background");
+var pW = 8192 * winHeight / 862;
+var pH = winHeight;
+//移动速度
+var speed = 0;
+//移动速度系数
+var speedCoefficient = 0.1;
+//当前位置
+var defaultLeft = -pW / 4;
+//左边位置
+var iLeft = -pW / 4 + winWidth;
+var ziLeft = -3 * pW / 4 + winWidth;
+//右边位置
+var iRigth = -3 * pW / 4 - winWidth;
+var ziRight = -pW / 4 - winWidth;
 
-    function creatCanvas(imgSrc, w, h) {
-        var canvas = document.createElement("canvas");
-        canvas.width = $(".wk").width();
-        canvas.height = $(".wk").height();
-        $(".wk")[0].appendChild(canvas);
-        var ctx = canvas.getContext("2d");
-        var img = new Image();
-        img.src = imgSrc;
-        img.onload = function() {
-            var px = ($(".wk").width() - img.width) / 2;
-            var py = ($(".wk").height() - img.height) / 2;
-            ctx.drawImage(img, px, py, w, h);
-            // strDataURI = canvas.toDataURL();
-            pinchRotate(canvas, ctx, img, px, py);
-        }
-    }
+function init() {
+    //设置区域大小位置
+    backgroundBox.css({ 'width': pW, 'height': pH, 'top': 0, 'left': defaultLeft, 'display': 'block', 'overflow-x': 'hidden' });
 
-    function pinchRotate(el, ctx, img, x, y) {
-        var kw = $(".wk").width();
-        var kh = $(".wk").height();
-        var imgw = img.width;
-        var imgh = img.height;
-        var ele = el;
-        var ctx = ctx;
-
-        var px = x;
-        var py = y;
-        var spx = 0;
-        var spy = 0;
-        var ro = 0;
-        // var sc = 1;
-        var sc = 1;
-        var xs = 1;
-        var dx = 0;
-        var dy = 0;
-
-        new AlloyFinger(ele, {
-
-            rotate: function(evt) {
-                $(".rotate span").html(evt.angle);
-                ro += evt.angle;
-                console.log(ro,evt.angle)
-
-
-                ctx.save();
-                ctx.clearRect(0,0,ele.width,ele.height);
-
-                ctx.translate(300, 300);
-                ctx.rotate(ro*Math.PI/180);
-                ctx.drawImage(img, px+ dx-300, py+ dy-300, imgw*xs,imgh*xs);
-                ctx.restore();
-
-            },
-
-            pinch: function(evt) {
-
-                ctx.clearRect(0, 0, ele.width, ele.height);
-                xs = (evt.zoom).toFixed(2) * sc;
-                px = (kw - imgw * xs) / 2;
-                py = (kh - imgh * xs) / 2;
-                ctx.drawImage(img, px + dx, py + dy, imgw * xs, imgh * xs);
-            },
-            multipointEnd: function() {
-                sc = xs;
-            },
-            pressMove: function(evt) {
-                $(".px span").html(evt.deltaX);
-                $(".py span").html(evt.deltaY);
-                dx += evt.deltaX;
-                dy += evt.deltaY;
-                ctx.save();
-                ctx.clearRect(0, 0, ele.width, ele.height);
-                ctx.translate(300, 300);
-                ctx.rotate(ro*Math.PI/180);
-                ctx.drawImage(img, px + dx-300, py + dy-300, img.width * sc, img.height * sc);
-                ctx.restore();
-
-            }
-        });
-    }
-
-
+}
+init();
+$("body").css({ 'width': winWidth, 'height': winHeight });
+//绑定点击事件
+$(".background").delegate('.redbox', 'click', function(e) {
+    alert($(this).attr('id'));
 })
+
+
+var flat = true; //初始化默认值
+initFlag = true, //初始化init
+    delayTime = 0, //延迟100ms执行deviceorientation事件
+    dateNowDelay = Date.now();
+
+function orientationHandler(event) {
+    alpha_cha = event.alpha;
+    beta_cha = event.beta;
+    gamma_cha = event.gamma;
+    if (initFlag || (dateNowDelay + delayTime) ){
+            if (initFlag) {
+                init();
+                initFlag = false;
+            }
+            if (gamma_cha >= 20 || gamma_cha <= -20) {
+                speed = gamma_cha * speedCoefficient;
+            } else {
+                speed = 0;
+            }
+            dateNowDelay = Date.now();
+        }
+    }
+    window.setInterval(function() {
+        // console.log('位置1',defaultLeft,speed);
+        if (speed == 0) {
+            return;
+        }
+        defaultLeft += speed;
+        if (defaultLeft > iLeft) {
+            defaultLeft = ziLeft;
+        } else if (defaultLeft) {
+            defaultLeft = ziRight;
+        }
+        $(".background").css('left', defaultLeft)
+    }, 100);
+
+    if (window.DeviceOrientationEvent) {
+        window.addEventListener("deviceorientation", orientationHandler, false);
+    } else {
+        document.body.innerHTML = "What user agent u r using？？？";
+    };
