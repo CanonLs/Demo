@@ -1,0 +1,16 @@
+body {
+    background: #502e08;
+}
+
+.abc {
+    transform: translate(20px);
+}
+
+.pic {
+    width: 200px;
+    height: 200px;
+    position: absolute;
+    background: url("images/1.jpg") no-repeat;
+    top: 200px;
+    left: 200px;
+}

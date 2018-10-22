@@ -1,0 +1,18 @@
+body {
+    background: #502e08;
+}
+
+.abc {
+    -webkit-transform: translate(20px);
+            transform: translate(20px);
+}
+
+.pic {
+    width: 200px;
+    height: 200px;
+    position: absolute;
+    background: url(images/f392bddae2169dc6655fc7f7901346a7.jpg) no-repeat;
+    top: 200px;
+    left: 200px;
+}
+/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJjc3MvaW5kZXguY3NzIiwic291cmNlUm9vdCI6IiJ9*/

@@ -1,0 +1,17 @@
+$bgColor: rgba(238, 124, 30, 0.979) !default;
+
+*,
+body {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    background-color: $bgColor;
+}
+
+.box {
+    color: #fff;
+    transform: translate(200px);
+    background: url("../../assets/images/1.jpg")no-repeat  ;
+}
