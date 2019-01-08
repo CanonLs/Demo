@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <meta name="viewport" id="viewport" content="width=device-width">
+
+    <script>
+        ! function() {
+            var e = screen.width / 750;
+            document.getElementById("viewport").content = "width=750,initial-scale=" + e + ",minimum-scale=" + e + ",maximum-scale=" + e + ",user-scalable=no"
+        }()
+    </script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <audio id="mic" src="src/music.mp3"></audio>
+    <div id="status">音频未加载</div>
+    <button id="playLead">播放主旋律</button>
+	<button id="playRhythm">播放节奏</button>
+	<button id="playsuspend">暂停音轨</button>
+	<button id="playresume">恢复音轨</button>
+    <script src="js/JTP.min.js"></script>
+
+    <script src="js/img.js"></script>
+    <script src="js/utils.js"></script>
+
+    <script src="js/main.js"></script>
+
+</body>
+
+</html>
